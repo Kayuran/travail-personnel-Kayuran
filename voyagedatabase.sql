@@ -1,0 +1,129 @@
+-- phpMyAdmin SQL Dump
+-- version 0.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Jui 25, 2021 at 12:01 PM
+
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `voyagedatabase`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `ranking` tinyint(1) DEFAULT NULL,
+  `FK_idIMDB` varchar(25) NOT NULL,
+  `FK_idUser` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`ranking`, `FK_idIMDB`, `FK_idUser`) VALUES
+(1, 'tt0080684', 9)
+;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `movies`
+--
+
+CREATE TABLE `prestation` (
+  `idPRE` varchar(25) NOT NULL,
+  `pays` varchar(100) DEFAULT NULL,
+  `periode` int(11) DEFAULT NULL,
+  `rating` float DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `lieu` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `movies`
+--
+
+INSERT INTO `prestation` (`idPRE`, `pays`, `periode`, `rating`,`image`, `description`, `lieu`) VALUES
+('tt0080684', 'The Empire Strikes Back', 1980, 8.2, './movies/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg', 124, 'The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.'),
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `idUser` int(11) NOT NULL,
+  `eMail` varchar(256) NOT NULL,
+  `password` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`idUser`, `eMail`, `password`) VALUES
+(9, 'me@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(10, 'fontaine@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(11, 'batard@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(12, 'quilan@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(13, 'ramos@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(14, 'blanvill@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(19, 'toto@gmail.com', '0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c'),
+(22, 'titi@gmail.com', 'f7e79ca8eb0b31ee4d5d6c181416667ffee528ed'),
+(23, 'asdf@gmail.com', 'f55627ebc3997247413a4972baa5525d6d730370');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`FK_idPRE`,`FK_idUser`),
+  ADD KEY `FK_feedback_idUser` (`FK_idUser`);
+
+--
+-- Indexes for table `movies`
+--
+ALTER TABLE `prestation`
+  ADD PRIMARY KEY (`idPRE`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`idUser`),
+  ADD UNIQUE KEY `eMail` (`eMail`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD CONSTRAINT `FK_feedback_idPRE` FOREIGN KEY (`FK_idPRE`) REFERENCES `prestation` (`idPRE`),
+  ADD CONSTRAINT `FK_feedback_idUser` FOREIGN KEY (`FK_idUser`) REFERENCES `users` (`idUser`);
