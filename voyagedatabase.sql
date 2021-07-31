@@ -1,5 +1,5 @@
 -- phpMyAdmin SQL Dump
--- version 0.0
+-- version 0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `feedback` (
   `ranking` tinyint(1) DEFAULT NULL,
-  `FK_idIMDB` varchar(25) NOT NULL,
+  `FK_idPRE` varchar(25) NOT NULL,
   `FK_idUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -29,14 +29,14 @@ CREATE TABLE `feedback` (
 -- Dumping data for table `feedback`
 --
 
-INSERT INTO `feedback` (`ranking`, `FK_idIMDB`, `FK_idUser`) VALUES
+INSERT INTO `feedback` (`ranking`, `FK_idPRE`, `FK_idUser`) VALUES
 (1, 'tt0080684', 9)
 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `movies`
+-- Table structure for table `prestation`
 --
 
 CREATE TABLE `prestation` (
@@ -50,13 +50,40 @@ CREATE TABLE `prestation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `movies`
+-- Dumping data for table `prestation`
 --
 
 INSERT INTO `prestation` (`idPRE`, `pays`, `periode`, `rating`,`image`, `description`, `lieu`) VALUES
 ('tt0080684', 'The Empire Strikes Back', 1980, 8.2, './movies/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg', 124, 'The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.'),
 
+
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `hotel`
+--
+
+CREATE TABLE `hotel` (
+  `idHOT` varchar(25) NOT NULL,
+  `FK_idPRE` varchar(25) NOT NULL,
+  `nom` varchar(100) DEFAULT NULL,
+  `periode` int(11) DEFAULT NULL,
+  `rating` float DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `addresse` varchar(100) DEFAULT NULL,
+  `activites` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `prestation`
+--
+
+INSERT INTO `hotel` (`idHOT`, `FK_idPRE`,`nom`, `periode`, `rating`,`image`, `description`, `addresse`, `activites`) VALUES
+('tt0080684', 'The Empire Strikes Back', 1980, 8.2, './movies/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg', 124, 'The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.'),
+
+-- --------------------------------------------------------
+
 
 --
 -- Table structure for table `users`
@@ -65,14 +92,17 @@ INSERT INTO `prestation` (`idPRE`, `pays`, `periode`, `rating`,`image`, `descrip
 CREATE TABLE `users` (
   `idUser` int(11) NOT NULL,
   `eMail` varchar(256) NOT NULL,
-  `password` varchar(64) NOT NULL
+  `password` varchar(64) NOT NULL,
+  `nom` varchar(64) NOT NULL,
+  `prenom` varchar(64) NOT NULL
+
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`idUser`, `eMail`, `password`) VALUES
+INSERT INTO `users` (`idUser`, `eMail`, `password`,`nom`, `prenom`) VALUES
 (9, 'me@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
 (10, 'fontaine@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
 (11, 'batard@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
@@ -83,9 +113,8 @@ INSERT INTO `users` (`idUser`, `eMail`, `password`) VALUES
 (22, 'titi@gmail.com', 'f7e79ca8eb0b31ee4d5d6c181416667ffee528ed'),
 (23, 'asdf@gmail.com', 'f55627ebc3997247413a4972baa5525d6d730370');
 
---
--- Indexes for dumped tables
---
+
+
 
 --
 -- Indexes for table `feedback`
@@ -95,7 +124,7 @@ ALTER TABLE `feedback`
   ADD KEY `FK_feedback_idUser` (`FK_idUser`);
 
 --
--- Indexes for table `movies`
+-- Indexes for table `prestation`
 --
 ALTER TABLE `prestation`
   ADD PRIMARY KEY (`idPRE`);
