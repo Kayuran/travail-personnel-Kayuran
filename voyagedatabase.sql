@@ -1,5 +1,5 @@
 -- phpMyAdmin SQL Dump
--- version 0.1
+-- version 0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
@@ -42,7 +42,6 @@ INSERT INTO `feedback` (`ranking`, `FK_idPRE`, `FK_idUser`) VALUES
 CREATE TABLE `prestation` (
   `idPRE` varchar(25) NOT NULL,
   `pays` varchar(100) DEFAULT NULL,
-  `periode` int(11) DEFAULT NULL,
   `rating` float DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
@@ -53,7 +52,7 @@ CREATE TABLE `prestation` (
 -- Dumping data for table `prestation`
 --
 
-INSERT INTO `prestation` (`idPRE`, `pays`, `periode`, `rating`,`image`, `description`, `lieu`) VALUES
+INSERT INTO `prestation` (`idPRE`, `pays`, `rating`,`image`, `description`, `lieu`) VALUES
 ('tt0080684', 'The Empire Strikes Back', 1980, 8.2, './movies/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg', 124, 'The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.'),
 
 
@@ -76,7 +75,7 @@ CREATE TABLE `hotel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `prestation`
+-- Dumping data for table `hotel`
 --
 
 INSERT INTO `hotel` (`idHOT`, `FK_idPRE`,`nom`, `periode`, `rating`,`image`, `description`, `addresse`, `activites`) VALUES
@@ -90,7 +89,7 @@ INSERT INTO `hotel` (`idHOT`, `FK_idPRE`,`nom`, `periode`, `rating`,`image`, `de
 --
 
 CREATE TABLE `users` (
-  `idUser` int(11) NOT NULL,
+  `idUSER` int(11) NOT NULL,
   `eMail` varchar(256) NOT NULL,
   `password` varchar(64) NOT NULL,
   `nom` varchar(64) NOT NULL,
@@ -102,7 +101,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`idUser`, `eMail`, `password`,`nom`, `prenom`) VALUES
+INSERT INTO `users` (`idUSER`, `eMail`, `password`,`nom`, `prenom`) VALUES
 (9, 'me@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
 (10, 'fontaine@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
 (11, 'batard@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
@@ -114,7 +113,33 @@ INSERT INTO `users` (`idUser`, `eMail`, `password`,`nom`, `prenom`) VALUES
 (23, 'asdf@gmail.com', 'f55627ebc3997247413a4972baa5525d6d730370');
 
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `reservation`
+--
+
+CREATE TABLE `reservation` (
+  `idRES` varchar(25) NOT NULL,
+  `FK_idPRE` varchar(25) NOT NULL,
+  `FK_idUSER` varchar(25) NOT NULL,
+  `pays` varchar(100) DEFAULT NULL,
+  `periode` int(11) DEFAULT NULL,
+  `rating` float DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `lieu` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`idRES`,`FK_idPRE`,`FK_idUSER`, `pays`, `periode`, `rating`,`image`, `description`, `lieu`) VALUES
+('tt0080684', 'The Empire Strikes Back', 1980, 8.2, './movies/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg', 124, 'The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.'),
+
+
+-- --------------------------------------------------------
 
 --
 -- Indexes for table `feedback`
