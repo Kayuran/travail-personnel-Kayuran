@@ -1,5 +1,5 @@
 -- phpMyAdmin SQL Dump
--- version 0.2
+-- version 0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
@@ -45,7 +45,8 @@ CREATE TABLE `prestation` (
   `rating` float DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
-  `lieu` varchar(100) DEFAULT NULL
+  `lieu` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`idPRE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -71,7 +72,9 @@ CREATE TABLE `hotel` (
   `image` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `addresse` varchar(100) DEFAULT NULL,
-  `activites` varchar(100) DEFAULT NULL
+  `activites` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`idHOT`),
+  KEY `prestation_idPRES` (`prestation_idPRES`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -93,7 +96,8 @@ CREATE TABLE `users` (
   `eMail` varchar(256) NOT NULL,
   `password` varchar(64) NOT NULL,
   `nom` varchar(64) NOT NULL,
-  `prenom` varchar(64) NOT NULL
+  `prenom` varchar(64) NOT NULL,
+  PRIMARY KEY (`idUSER`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -128,14 +132,18 @@ CREATE TABLE `reservation` (
   `rating` float DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
-  `lieu` varchar(100) DEFAULT NULL
+  `lieu` varchar(100) DEFAULT NULL,
+  `nb_personne` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`FK_idUSER`,`FK_idPRE`),
+  KEY `fk_reservation_user1` (`FK_idPRE`),
+  KEY `fk_reservation_prestation1` (`FK_idUSER`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `reservation`
 --
 
-INSERT INTO `reservation` (`idRES`,`FK_idPRE`,`FK_idUSER`, `pays`, `periode`, `rating`,`image`, `description`, `lieu`) VALUES
+INSERT INTO `reservation` (`idRES`,`FK_idPRE`,`FK_idUSER`, `pays`, `periode`, `rating`,`image`, `description`, `lieu`, `nb_personne`) VALUES
 ('tt0080684', 'The Empire Strikes Back', 1980, 8.2, './movies/6u1fYtxG5eqjhtCPDx04pJphQRW.jpg', 124, 'The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.'),
 
 
@@ -148,17 +156,13 @@ ALTER TABLE `feedback`
   ADD PRIMARY KEY (`FK_idPRE`,`FK_idUser`),
   ADD KEY `FK_feedback_idUser` (`FK_idUser`);
 
---
--- Indexes for table `prestation`
---
-ALTER TABLE `prestation`
-  ADD PRIMARY KEY (`idPRE`);
+
+
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`idUser`),
   ADD UNIQUE KEY `eMail` (`eMail`);
 
 --
