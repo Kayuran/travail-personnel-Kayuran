@@ -28,8 +28,8 @@ function myConnection() {
 
 
 /**
- * Récupère les films dans un certain ordre
- * @param string  $order     Nom de la colonne pour trier les pays affichés
+ * Récupère les prestations dans un certain ordre
+ * @param string  $order     Nom de la colonne pour trier les prestations affichées
  * @param string  $direction Sens de tri de l'affichage
  * @param boolean $filter    Filtre actif ou pas
  * @param int     $idUser    Identifiant utilisateur connecte
@@ -42,7 +42,7 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
 
         if ($filter) {
 
-            $query = "SELECT * FROM movies WHERE idIMDB NOT IN (SELECT FK_idIMDB FROM feedback WHERE FK_idUser = :idUser) ORDER BY $order $direction";
+            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE users_idUser = :idUser) ORDER BY $order $direction";
             debug($mode, $query); // Pour déboggage uniquement à la base, mais laissé car sympa de voir le SQL            
             $request = myConnection()->prepare($query);
             $request->bindParam(':idUser', $idUser, PDO::PARAM_STR);
@@ -50,7 +50,7 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
 
         } else {
 
-            $query = "SELECT * FROM movies ORDER BY $order $direction";        
+            $query = "SELECT * FROM prestation ORDER BY $order $direction";        
             debug($mode, $query); // Pour déboggage uniquement à la base, mais laissé car sympa de voir le SQL
             $request = myConnection()->prepare($query); 
             $request->execute();
@@ -68,10 +68,10 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
  * @param string $idPRE Identifiant de la prestation
  * @return array Tableau des informations
  */
-function getOneMovie($idPRE) {
+function getOnePays($idPRE) {
     try {
-        $request = myConnection()->prepare("SELECT * FROM movies WHERE idIMDB = :idIMDB");
-        $request->bindParam(':idIMDB', $idIMDB, PDO::PARAM_STR);
+        $request = myConnection()->prepare("SELECT * FROM prestation WHERE idPRE = :idPRE");
+        $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);
         $request->execute();
     } catch (PDOException $e) {
         header("Location:error.php?message=".$e->getMessage());
@@ -79,6 +79,47 @@ function getOneMovie($idPRE) {
     return $request->fetch(PDO::FETCH_ASSOC);
 }
 
+
+/**
+ * Récupère les hotels dans un certain ordre
+ * @param string  $order     Nom de la colonne pour trier les pays affichés
+ * @param string  $direction Sens de tri de l'affichage
+ * @param boolean $filter    Filtre actif ou pas
+ * @param int     $idUser    Identifiant utilisateur connecte
+ * @param string  $mode      verbose=deboggage or quiet=production, indique si le select est affiché ou pas pour l'utilisateur
+ * @return array tableau des pays
+ */
+function getHotel($order, $direction, $filter, $idUser, $mode) {
+	try {
+
+            $query = "SELECT * FROM hotel ORDER BY $order $direction";        
+            debug($mode, $query); // Pour déboggage uniquement à la base, mais laissé car sympa de voir le SQL
+            $request = myConnection()->prepare($query); 
+            $request->execute();
+
+        }
+
+	} catch (PDOException $e) {
+		header("Location:error.php?message=".$e->getMessage());
+	}
+    return $request->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Récupère les informations d'un hotel
+ * @param string $idHOT Identifiant de la prestation
+ * @return array Tableau des informations
+ */
+function getOnePays($idHOT) {
+    try {
+        $request = myConnection()->prepare("SELECT * FROM hotel WHERE idHOT = :idHOT");
+        $request->bindParam(':idHOT', $idHOT, PDO::PARAM_STR);
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+    return $request->fetch(PDO::FETCH_ASSOC);
+}
 
 /**
  * Ajoute un utilisateur
@@ -116,17 +157,17 @@ function getOneUser($email) {
 }
 
 /**
- * Récupère l'avis de l'utilisateur par rapport au film
- * @param int $idUser identifiant de l'utilisateur
- * @param string $idIMDB identifiant du film
+ * Récupère l'avis de l'utilisateur par rapport à la prestation
+ * @param int $idUSER identifiant de l'utilisateur
+ * @param string $idPRE identifiant de la prestation
  * @return int avis (-1 disliked, 0 neutral, 1 loved, 99 unseen)
  */
-function getFeedback($idUser, $idIMDB) {
+function getFeedback($idUSER, $idPRE) {
     //assert(avis does already exist)
     try {
-        $request = myConnection()->prepare("SELECT ranking FROM feedback WHERE FK_idUser = :idUser AND FK_idIMDB = :idIMDB");
-        $request->bindParam(':idUser', $idUser, PDO::PARAM_STR);
-        $request->bindParam(':idIMDB', $idIMDB, PDO::PARAM_STR);
+        $request = myConnection()->prepare("SELECT ranking FROM feedback WHERE users_idUser = :idUSER AND prestation_idPRE = :idPRE");
+        $request->bindParam(':idUSER', $idUser, PDO::PARAM_STR);
+        $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
         $request->execute();
     } catch (PDOException $e) {
         header("Location:error.php?message=".$e->getMessage());
@@ -137,12 +178,12 @@ function getFeedback($idUser, $idIMDB) {
 
 /**
  * Crée, supprime ou met à jour l'avis de l'utilisateur
- * @param int $idUser identifiant de l'utilisateur
- * @param string $idIMDB identifiant du film
+ * @param int $idUSER identifiant de l'utilisateur
+ * @param string $idPRE identifiant du film
  * @param int ranking (-1 disliked, 0 neutral, 1 loved)
  */
-function setFeedback($idUser, $idIMDB, $ranking) {
-    $feedback = getFeedback($idUser, $idIMDB);
+function setFeedback($idUSER, $idPRE, $ranking) {
+    $feedback = getFeedback($idUSER, $idPRE);
     switch($feedback) {
         case -1:
             switch($ranking) {
@@ -150,10 +191,10 @@ function setFeedback($idUser, $idIMDB, $ranking) {
                     break;
                 case 0:
                 case 1:
-                    updateFeedback($idUser, $idIMDB, $ranking);
+                    updateFeedback($idUSER, $idPRE, $ranking);
                     break;
                 case 99:
-                    removeFeedback($idUser, $idIMDB);
+                    removeFeedback($idUSER, $idPRE);
                     break;
             }
             break;
@@ -163,10 +204,10 @@ function setFeedback($idUser, $idIMDB, $ranking) {
                     break;
                 case -1:
                 case 1:
-                    updateFeedback($idUser, $idIMDB, $ranking);
+                    updateFeedback($idUSER, $idPRE, $ranking);
                     break;
                 case 99:
-                    removeFeedback($idUser, $idIMDB);
+                    removeFeedback($idUSER, $idPRE);
                     break;
             }
             break;
@@ -176,10 +217,10 @@ function setFeedback($idUser, $idIMDB, $ranking) {
                     break;
                 case -1:
                 case 0:
-                    updateFeedback($idUser, $idIMDB, $ranking);
+                    updateFeedback($idUSER, $idPRE, $ranking);
                     break;
                 case 99:
-                    removeFeedback($idUser, $idIMDB);
+                    removeFeedback($idUSER, $idPRE);
                     break;
             }
             break;
@@ -190,7 +231,7 @@ function setFeedback($idUser, $idIMDB, $ranking) {
                 case -1:
                 case 0:
                 case 1:
-                    createFeedback($idUser, $idIMDB, $ranking);
+                    createFeedback($idUSER, $idPRE, $ranking);
                     break;
             }
             break;
@@ -198,18 +239,18 @@ function setFeedback($idUser, $idIMDB, $ranking) {
 }
 
 /**
- * Ajoute un avis de l'utilisateur sur un film
+ * Ajoute un avis de l'utilisateur sur une prestation
  * @param int $idUser identifiant de l'utilisateur
- * @param string $idIMDB identifiant du film
+ * @param string $idPRE identifiant de la prestation
  * @param int ranking (-1 disliked, 0 neutral, 1 loved)
  */
-function createFeedback($idUser, $idIMDB, $ranking) {
+function createFeedback($idUSER, $idPRE, $ranking) {
     //assert(avis doesn't already exist)
     if ($ranking == -1 || $ranking == 0 || $ranking == 1) {
         try {
-            $request = myConnection()->prepare("INSERT INTO feedback (ranking, FK_idIMDB, FK_idUser) VALUES (:ranking, :idIMDB, :idUser)");
-            $request->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-            $request->bindParam(':idIMDB', $idIMDB, PDO::PARAM_STR);
+            $request = myConnection()->prepare("INSERT INTO feedback (ranking, prestation_idPRE, users_idUSER) VALUES (:ranking, :idPRE, :idUSER)");
+            $request->bindParam(':idUSER', $idUser, PDO::PARAM_INT);
+            $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
             $request->bindParam(':ranking',$ranking,PDO::PARAM_INT);
             $request->execute();
         } catch (PDOException $e) {
@@ -219,18 +260,18 @@ function createFeedback($idUser, $idIMDB, $ranking) {
 }
 
 /**
- * Modifie l'avis de l'utilisateur pour un film
- * @param int $idUser identifiant de l'utilisateur
- * @param string $idIMDB identifiant du film
+ * Modifie l'avis de l'utilisateur pour une prestation
+ * @param int $idUSER identifiant de l'utilisateur
+ * @param string $idPRE identifiant de la prestation
  * @param int ranking (-1 disliked, 0 neutral, 1 loved)
  */
-function updateFeedback($idUser, $idIMDB, $ranking) {
+function updateFeedback($idUSER, $idPRE, $ranking) {
     //assert(avis does already exist)
     if ($ranking == -1 || $ranking == 0 || $ranking == 1) {
         try {
-            $request = myConnection()->prepare("UPDATE feedback SET ranking = :ranking WHERE FK_idUser = :idUser AND FK_idIMDB = :idIMDB");
-            $request->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-            $request->bindParam(':idIMDB', $idIMDB, PDO::PARAM_STR);
+            $request = myConnection()->prepare("UPDATE feedback SET ranking = :ranking WHERE users_idUSER = :idUSER AND prestation_idPRE = :idPRE");
+            $request->bindParam(':idUSER', $idUser, PDO::PARAM_INT);
+            $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
             $request->bindParam(':ranking',$ranking,PDO::PARAM_INT);
             $request->execute();
         } catch (PDOException $e) {
@@ -240,16 +281,16 @@ function updateFeedback($idUser, $idIMDB, $ranking) {
 }
 
 /**
- * Supprime l'avis de l'utilisateur pour un film (marque le film non vu)
- * @param int $idUser identifiant de l'utilisateur
- * @param string $idIMDB identifiant du film
+ * Supprime l'avis de l'utilisateur pour une prestation (marque la prestation non vu)
+ * @param int $idUSER identifiant de l'utilisateur
+ * @param string $idPRE identifiant de la prestation
  */
-function removeFeedback($idUser, $idIMDB) {
+function removeFeedback($idUSER, $idPRE) {
     //assert(avis does already exist)
     try {
-        $request = myConnection()->prepare("DELETE FROM feedback WHERE FK_idUser = :idUser AND FK_idIMDB = :idIMDB");
-        $request->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-        $request->bindParam(':idIMDB', $idIMDB, PDO::PARAM_STR);
+        $request = myConnection()->prepare("DELETE FROM feedback WHERE users_idUSER = :idUSER AND prestation_idPRE = :idPRE");
+        $request->bindParam(':idUSER', $idUser, PDO::PARAM_INT);
+        $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
         $request->execute();
     } catch (PDOException $e) {
         header("Location:error.php?message=".$e->getMessage());

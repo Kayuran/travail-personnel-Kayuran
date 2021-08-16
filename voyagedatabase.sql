@@ -22,14 +22,14 @@ SET time_zone = "+00:00";
 CREATE TABLE `feedback` (
   `ranking` tinyint(1) DEFAULT NULL,
   `prestation_idPRE` varchar(25) NOT NULL,
-  `users_idUser` int(11) NOT NULL
+  `users_idUSER` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `feedback`
 --
 
-INSERT INTO `feedback` (`ranking`, `prestation_idPRE`, `users_idUser`) VALUES
+INSERT INTO `feedback` (`ranking`, `prestation_idPRE`, `users_idUSER`) VALUES
 (1, '1', 1)
 ;
 
