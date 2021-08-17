@@ -1,0 +1,152 @@
+/* * * * * * * * * * * * * * * * * *
+ * v.2 - 2019 - Blanvillain Christian - ESIG
+ * v.1 - 2017 - Henauer Fabien - CFPT
+ * * * * * * * * * * * * * * * * * */
+
+
+
+
+/* * * * * * * * * * * * * * * * * *
+ * header.php
+ * * * * * * * * * * * * * * * * * */
+
+header {
+  padding: 16px;
+  margin-top: 16px;
+  background-color: rgb(52,62,103); /* dark blue */
+  border-radius: 15px;
+  font-family: arial;
+}
+h1 {
+  font-size: 50pt; /* Fits on two lines */
+  font-family: Impact;
+  color: black;
+}
+nav {
+  text-align: right;
+}
+nav a {
+  color: rgb(201,90,30); /* orange from logo */
+  font-weight: bold;
+}
+nav a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * *
+ * error.php
+ * * * * * * * * * * * * * * * * * */
+
+h2 {
+  color: rgb(201,90,30); /* orange from logo */
+  font-size: 37pt;
+  font-family: Impact;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * *
+ * index.php
+ * * * * * * * * * * * * * * * * * */
+
+/* set of button on top of the list of movies */ 
+#ordering {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: rgb(52,62,103); /* dark blue */
+  border-radius: 15px;
+}
+.cartouche {
+  width: 261px;
+  display: inline-block; /* natural flow adapt to screen size */
+  margin: 17px 34px 34px 34px; /* space between movies */
+}
+.card {
+  width: 248px; /* 246+2px border = 248 */
+  height: 429px; /* 369+60 = 429 */
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCEE;
+  text-align: center;
+}
+.data {
+  width: 248px;
+  height: 60px;
+  line-height: 60px; /* vertical text centering */
+  overflow: hidden;
+  font-size: 14pt;
+}
+.pict {
+  height: 369px;
+  padding-bottom: 17px;
+  overflow: hidden;
+}
+.pict img {
+  width: 246px; /* +2px border = 248 */
+}
+
+
+
+/* * * * * * * * * * * * * * * * * *
+ * movie.php
+ * * * * * * * * * * * * * * * * * */
+
+h3 {
+  color: rgb(52,62,103); /* dark blue */
+  height: 60px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table, tr, td {
+  border: none !important; 
+}
+a {
+  color: rgb(52,62,103); /* dark blue */
+  text-decoration: none;
+  font-weight: bold;
+}
+a:hover {
+  color: gray;
+}
+/* table that presents the movie */
+.jacket {
+  width: 900px;
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: 32px;
+}
+/* picture of the movie */
+.movie {
+  width: 360px;
+  border-radius: 15px;
+}
+.movie:hover {
+  opacity: 0.5;
+}
+/* data about the movie */
+.info {
+  vertical-align: top;
+  margin-top: 0px;
+}
+/* seen-unseen && like-dislike icons */
+.icons {
+  text-align: center;
+  margin: auto;
+  width: 50px; 
+  padding: 5px; 
+}
+.icons:hover {
+  background-color:#CCCCEE; /* purple-grey */
+}
+.selected {
+  color: black;
+}
+.unselected {
+  color: #ECECFB; /* light purple-grey */
+}
+
+

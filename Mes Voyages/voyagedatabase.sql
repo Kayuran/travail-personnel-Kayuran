@@ -53,7 +53,7 @@ CREATE TABLE `prestation` (
 --
 
 INSERT INTO `prestation` (`idPRE`,`users_idUSER`, `pays`,`image`, `description`) VALUES
-('1',1, 'Iles Canaries', './images/destination/Canaries.webp', 'Les Canaries, archipel espagnol au large de la côte nord-ouest d Afrique, sont des îles volcaniques au relief escarpé connues pour leurs plages de sable noir et de sable blanc.'),
+('1',1, 'Iles Canaries', './images/destination/Canaries.jpg', 'Les Canaries, archipel espagnol au large de la côte nord-ouest d Afrique, sont des îles volcaniques au relief escarpé connues pour leurs plages de sable noir et de sable blanc.'),
 ('2',1, 'Egypte', './images/destination/Egypte.webp', 'L Égypte est un pont entre l Afrique du Nord-Est et le Moyen-Orient et son histoire remonte à l époque des pharaons. Des monuments millénaires bordent les berges de la fertile vallée du Nil, notamment le sphinx et les pyramides colossales de Gizeh. '),
 ('3',1, 'Grece', './images/destination/Grece.webp', 'La Grèce est un pays du sud-est de l Europe, composé de milliers d îles parsemant les mers Égée et Ionienne. Influente pendant l Antiquité, elle est souvent surnommée le berceau de la civilisation occidentale.'),
 ('4',1, 'Turquie', './images/destination/Turquie.webp', 'La Turquie s étend de l Europe de l Est à l Asie Mineure. Culturellement, elle est liée aux anciens empires grec, perse, romain, byzantin et ottoman.');
@@ -103,8 +103,6 @@ CREATE TABLE `users` (
   `idUSER` int(11) NOT NULL,
   `eMail` varchar(256) NOT NULL,
   `password` varchar(64) NOT NULL,
-  `nom` varchar(64) NOT NULL,
-  `prenom` varchar(64) NOT NULL,
   PRIMARY KEY (`idUSER`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -113,11 +111,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`idUSER`, `eMail`, `password`,`nom`, `prenom`) VALUES
-(1, 'me@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785','me','me'),
-(2, 'buffalo@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785','Buffalo','Bill'),
-(3, 'lucky@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785','Lucky','Luke'),
-(4, 'jesse@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785','Jessie','James');
+INSERT INTO `users` (`idUSER`, `eMail`, `password`) VALUES
+(1, 'me@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(2, 'buffalo@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(3, 'lucky@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
+(4, 'jesse@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785');
 
 
 

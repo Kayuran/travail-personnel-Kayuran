@@ -42,8 +42,7 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
 
         if ($filter) {
 
-            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE users_idUser = :idUser) ORDER BY $order $direction";
-            debug($mode, $query); // Pour déboggage uniquement à la base, mais laissé car sympa de voir le SQL            
+            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE users_idUser = :idUser) ORDER BY $order $direction";        
             $request = myConnection()->prepare($query);
             $request->bindParam(':idUser', $idUser, PDO::PARAM_STR);
             $request->execute();
@@ -51,7 +50,6 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
         } else {
 
             $query = "SELECT * FROM prestation ORDER BY $order $direction";        
-            debug($mode, $query); // Pour déboggage uniquement à la base, mais laissé car sympa de voir le SQL
             $request = myConnection()->prepare($query); 
             $request->execute();
 
@@ -90,18 +88,14 @@ function getOnePays($idPRE) {
  * @return array tableau des pays
  */
 function getHotel($order, $direction, $filter, $idUser, $mode) {
-	try {
+
 
             $query = "SELECT * FROM hotel ORDER BY $order $direction";        
-            debug($mode, $query); // Pour déboggage uniquement à la base, mais laissé car sympa de voir le SQL
             $request = myConnection()->prepare($query); 
             $request->execute();
 
-        }
 
-	} catch (PDOException $e) {
-		header("Location:error.php?message=".$e->getMessage());
-	}
+	
     return $request->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -110,7 +104,7 @@ function getHotel($order, $direction, $filter, $idUser, $mode) {
  * @param string $idHOT Identifiant de la prestation
  * @return array Tableau des informations
  */
-function getOnePays($idHOT) {
+function getOnehotel($idHOT) {
     try {
         $request = myConnection()->prepare("SELECT * FROM hotel WHERE idHOT = :idHOT");
         $request->bindParam(':idHOT', $idHOT, PDO::PARAM_STR);
