@@ -42,7 +42,8 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
 
         if ($filter) {
 
-            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE users_idUser = :idUser) ORDER BY $order $direction";        
+            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE users_idUSER = :idUser) ORDER BY $order $direction";        
+            debug($mode, $query);
             $request = myConnection()->prepare($query);
             $request->bindParam(':idUser', $idUser, PDO::PARAM_STR);
             $request->execute();
@@ -50,6 +51,7 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
         } else {
 
             $query = "SELECT * FROM prestation ORDER BY $order $direction";        
+            debug($mode, $query);
             $request = myConnection()->prepare($query); 
             $request->execute();
 
@@ -59,6 +61,16 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
 		header("Location:error.php?message=".$e->getMessage());
 	}
     return $request->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Affiche une variable pour déboggage
+ * Non respect du MVC ici, car affichage du HTML dans la zone dédiée aux données
+ * @param string $data donnée à afficher
+ */
+function debug($mode, $data) {
+    if ($mode == "verbose")
+        echo "<center><small><font color='#CCCCCC'>" . $data . "</font></small></center><br>";
 }
 
 /**
@@ -156,10 +168,10 @@ function getOneUser($email) {
  * @param string $idPRE identifiant de la prestation
  * @return int avis (-1 disliked, 0 neutral, 1 loved, 99 unseen)
  */
-function getFeedback($idUSER, $idPRE) {
+function getFeedback($idUser, $idPRE) {
     //assert(avis does already exist)
     try {
-        $request = myConnection()->prepare("SELECT ranking FROM feedback WHERE users_idUser = :idUSER AND prestation_idPRE = :idPRE");
+        $request = myConnection()->prepare("SELECT ranking FROM feedback WHERE users_idUSER  = :idUSER AND prestation_idPRE = :idPRE");
         $request->bindParam(':idUSER', $idUser, PDO::PARAM_STR);
         $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
         $request->execute();
@@ -172,12 +184,12 @@ function getFeedback($idUSER, $idPRE) {
 
 /**
  * Crée, supprime ou met à jour l'avis de l'utilisateur
- * @param int $idUSER identifiant de l'utilisateur
+ * @param int $idUser identifiant de l'utilisateur
  * @param string $idPRE identifiant du film
  * @param int ranking (-1 disliked, 0 neutral, 1 loved)
  */
-function setFeedback($idUSER, $idPRE, $ranking) {
-    $feedback = getFeedback($idUSER, $idPRE);
+function setFeedback($idUser, $idPRE, $ranking) {
+    $feedback = getFeedback($idUser, $idPRE);
     switch($feedback) {
         case -1:
             switch($ranking) {
@@ -185,10 +197,10 @@ function setFeedback($idUSER, $idPRE, $ranking) {
                     break;
                 case 0:
                 case 1:
-                    updateFeedback($idUSER, $idPRE, $ranking);
+                    updateFeedback($idUser, $idPRE, $ranking);
                     break;
                 case 99:
-                    removeFeedback($idUSER, $idPRE);
+                    removeFeedback($idUser, $idPRE);
                     break;
             }
             break;
@@ -198,10 +210,10 @@ function setFeedback($idUSER, $idPRE, $ranking) {
                     break;
                 case -1:
                 case 1:
-                    updateFeedback($idUSER, $idPRE, $ranking);
+                    updateFeedback($idUser, $idPRE, $ranking);
                     break;
                 case 99:
-                    removeFeedback($idUSER, $idPRE);
+                    removeFeedback($idUser, $idPRE);
                     break;
             }
             break;
@@ -211,10 +223,10 @@ function setFeedback($idUSER, $idPRE, $ranking) {
                     break;
                 case -1:
                 case 0:
-                    updateFeedback($idUSER, $idPRE, $ranking);
+                    updateFeedback($idUser, $idPRE, $ranking);
                     break;
                 case 99:
-                    removeFeedback($idUSER, $idPRE);
+                    removeFeedback($idUser, $idPRE);
                     break;
             }
             break;
@@ -225,7 +237,7 @@ function setFeedback($idUSER, $idPRE, $ranking) {
                 case -1:
                 case 0:
                 case 1:
-                    createFeedback($idUSER, $idPRE, $ranking);
+                    createFeedback($idUser, $idPRE, $ranking);
                     break;
             }
             break;
@@ -238,7 +250,7 @@ function setFeedback($idUSER, $idPRE, $ranking) {
  * @param string $idPRE identifiant de la prestation
  * @param int ranking (-1 disliked, 0 neutral, 1 loved)
  */
-function createFeedback($idUSER, $idPRE, $ranking) {
+function createFeedback($idUser, $idPRE, $ranking) {
     //assert(avis doesn't already exist)
     if ($ranking == -1 || $ranking == 0 || $ranking == 1) {
         try {
@@ -255,11 +267,11 @@ function createFeedback($idUSER, $idPRE, $ranking) {
 
 /**
  * Modifie l'avis de l'utilisateur pour une prestation
- * @param int $idUSER identifiant de l'utilisateur
+ * @param int $idUser identifiant de l'utilisateur
  * @param string $idPRE identifiant de la prestation
  * @param int ranking (-1 disliked, 0 neutral, 1 loved)
  */
-function updateFeedback($idUSER, $idPRE, $ranking) {
+function updateFeedback($idUser, $idPRE, $ranking) {
     //assert(avis does already exist)
     if ($ranking == -1 || $ranking == 0 || $ranking == 1) {
         try {
@@ -276,10 +288,10 @@ function updateFeedback($idUSER, $idPRE, $ranking) {
 
 /**
  * Supprime l'avis de l'utilisateur pour une prestation (marque la prestation non vu)
- * @param int $idUSER identifiant de l'utilisateur
+ * @param int $idUser identifiant de l'utilisateur
  * @param string $idPRE identifiant de la prestation
  */
-function removeFeedback($idUSER, $idPRE) {
+function removeFeedback($idUser, $idPRE) {
     //assert(avis does already exist)
     try {
         $request = myConnection()->prepare("DELETE FROM feedback WHERE users_idUSER = :idUSER AND prestation_idPRE = :idPRE");

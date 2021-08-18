@@ -7,7 +7,6 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="Ressources/Logo.png" >
     <link href="bootstrap/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="bootstrap/vendor/metisMenu/metisMenu.css" rel="stylesheet">
     <link href="bootstrap/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
@@ -23,7 +22,7 @@
         <table>
           <tr>
             <td>
-              <a href="index.php"><img src="ressources/logo.png" alt="logo"></a></td>
+              
             <td>
               <h1>MesVoyages</h1>
             </td>

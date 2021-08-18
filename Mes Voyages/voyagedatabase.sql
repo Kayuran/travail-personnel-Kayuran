@@ -42,7 +42,7 @@ INSERT INTO `feedback` (`ranking`, `prestation_idPRE`, `users_idUSER`) VALUES
 CREATE TABLE `prestation` (
   `idPRE` varchar(25) NOT NULL,
   `users_idUSER` int(25) NOT NULL,
-  `pays` varchar(100) NOT NULL,
+  `nom` varchar(100) NOT NULL,
   `image` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`idPRE`)
@@ -52,11 +52,11 @@ CREATE TABLE `prestation` (
 -- Dumping data for table `prestation`
 --
 
-INSERT INTO `prestation` (`idPRE`,`users_idUSER`, `pays`,`image`, `description`) VALUES
-('1',1, 'Iles Canaries', './images/destination/Canaries.jpg', 'Les Canaries, archipel espagnol au large de la côte nord-ouest d Afrique, sont des îles volcaniques au relief escarpé connues pour leurs plages de sable noir et de sable blanc.'),
-('2',1, 'Egypte', './images/destination/Egypte.webp', 'L Égypte est un pont entre l Afrique du Nord-Est et le Moyen-Orient et son histoire remonte à l époque des pharaons. Des monuments millénaires bordent les berges de la fertile vallée du Nil, notamment le sphinx et les pyramides colossales de Gizeh. '),
-('3',1, 'Grece', './images/destination/Grece.webp', 'La Grèce est un pays du sud-est de l Europe, composé de milliers d îles parsemant les mers Égée et Ionienne. Influente pendant l Antiquité, elle est souvent surnommée le berceau de la civilisation occidentale.'),
-('4',1, 'Turquie', './images/destination/Turquie.webp', 'La Turquie s étend de l Europe de l Est à l Asie Mineure. Culturellement, elle est liée aux anciens empires grec, perse, romain, byzantin et ottoman.');
+INSERT INTO `prestation` (`idPRE`,`users_idUSER`, `nom`,`image`, `description`) VALUES
+('1',1, 'Iles Canaries', './images/Canaries.jpg', 'Les Canaries, archipel espagnol au large de la côte nord-ouest d Afrique, sont des îles volcaniques au relief escarpé connues pour leurs plages de sable noir et de sable blanc.'),
+('2',1, 'Egypte', './images/Egypte.jpg', 'L Égypte est un pont entre l Afrique du Nord-Est et le Moyen-Orient et son histoire remonte à l époque des pharaons. Des monuments millénaires bordent les berges de la fertile vallée du Nil, notamment le sphinx et les pyramides colossales de Gizeh. '),
+('3',1, 'Grece', './images/Grece.jpg', 'La Grèce est un pays du sud-est de l Europe, composé de milliers d îles parsemant les mers Égée et Ionienne. Influente pendant l Antiquité, elle est souvent surnommée le berceau de la civilisation occidentale.'),
+('4',1, 'Turquie', './images/Turquie.jpg', 'La Turquie s étend de l Europe de l Est à l Asie Mineure. Culturellement, elle est liée aux anciens empires grec, perse, romain, byzantin et ottoman.');
 -- --------------------------------------------------------
 
 --

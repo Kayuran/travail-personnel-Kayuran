@@ -41,7 +41,7 @@ if ($idUser > 0) {
     </td>
     <td>
       <h3 class="info">
-          <?= $pays["title"] ?>
+          <?= $pays["pays"] ?>
 
         </a>
       </h3>

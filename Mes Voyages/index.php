@@ -42,9 +42,9 @@ if (isset($_POST["filterSwap"])) {
 
 
 <form method="post" action="index.php" enctype="multipart/form-data" id="ordering">
-  <button class="btn btn-default" type="submit" name="orderByRating">Trier par note</button>
-  <button class="btn btn-default" type="submit" name="orderByName">Trier par nom </button>
+
   <button class="btn btn-default" type="submit" name="directionSwap">Toggle Order swap</button>
+  <button class="btn btn-default" type="submit" name="orderByName">Trier par nom</button>
   <?php if (isset($_SESSION["idUser"]) && $_SESSION["idUser"] > 0): ?>
   <button class="btn btn-default" type="submit" name="filterSwap">Toggle Filter</button>
   <?php endif; ?>
@@ -55,8 +55,11 @@ if (isset($_POST["filterSwap"])) {
 
   <div class='cartouche'>
     <div class='card'>
+    <div class='data'>
+        <?= $pays[$_SESSION["order"]] . (($_SESSION["order"] == "nom")?"":"") ?>
+      </div>
       <div class='pict'>
-        <a href="movie.php?id=<?= $pays['idPRE'] ?>&title=<?= htmlentities($pays['pays']) ?>"><img src="<?= $pays['image'] ?>" alt="<?= $pays['pays'] ?>"></a>
+        <a href="movie.php?id=<?= $pays['idPRE'] ?>&nom=<?= htmlentities($pays['nom']) ?>"><img src="<?= $pays['image'] ?>" alt="<?= $pays['nom'] ?>"></a>
       </div>
     </div>
   </div>
