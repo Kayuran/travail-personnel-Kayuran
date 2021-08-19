@@ -4,17 +4,25 @@
 $title = "Mes Voyages";
 include('header.php');
 
-// toggle button initialisation and default order set
+
+// Valeurs par defauts
 if (!isset($_SESSION["order"])) {
-  $_SESSION["order"] = "rating"; // Default value: best unseen movies first
-  $_SESSION["direction"] = "DESC"; // Default value: descending order
-  $_SESSION["filter"] = isset($_SESSION["idUser"]); // Filter if connected, all movies else.
+  $_SESSION["order"] = "name"; 
+  $_SESSION["direction"] = "ASC"; 
+  $_SESSION["filter"] = isset($_SESSION["idUser"]); 
 }
-// by note
+// Par note
 if (isset($_POST["orderByRating"])) {
   $_SESSION["order"] = "rating";
 }
-// by title
+
+// Par ordre d'ajout
+if (isset($_POST["orderByOrder"])) {
+  $_SESSION["order"] = "idPRE";
+}
+
+
+// Par nom
 if (isset($_POST["orderByName"])) {
   $_SESSION["order"] = "nom";
 }
@@ -42,9 +50,10 @@ if (isset($_POST["filterSwap"])) {
 
 
 <form method="post" action="index.php" enctype="multipart/form-data" id="ordering">
-
+  
+  <button class="btn btn-default" type="submit" name="orderByName">Accéder aux pays</button>
   <button class="btn btn-default" type="submit" name="directionSwap">Toggle Order swap</button>
-  <button class="btn btn-default" type="submit" name="orderByName">Trier par nom</button>
+  <button class="btn btn-default" type="submit" name="orderByOrder">Trier par ordre d'ajout</button>
   <?php if (isset($_SESSION["idUser"]) && $_SESSION["idUser"] > 0): ?>
   <button class="btn btn-default" type="submit" name="filterSwap">Toggle Filter</button>
   <?php endif; ?>
@@ -56,7 +65,7 @@ if (isset($_POST["filterSwap"])) {
   <div class='cartouche'>
     <div class='card'>
     <div class='data'>
-        <?= $pays[$_SESSION["order"]] . (($_SESSION["order"] == "nom")?"":"") ?>
+        <?=$pays[$_SESSION["order"]] . (($_SESSION["order"] == "nom")?"":"") ?>
       </div>
       <div class='pict'>
         <a href="movie.php?id=<?= $pays['idPRE'] ?>&nom=<?= htmlentities($pays['nom']) ?>"><img src="<?= $pays['image'] ?>" alt="<?= $pays['nom'] ?>"></a>

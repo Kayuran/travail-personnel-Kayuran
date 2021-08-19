@@ -83,6 +83,7 @@ function getOnePays($idPRE) {
         $request = myConnection()->prepare("SELECT * FROM prestation WHERE idPRE = :idPRE");
         $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);
         $request->execute();
+        
     } catch (PDOException $e) {
         header("Location:error.php?message=".$e->getMessage());
     }
