@@ -153,4 +153,17 @@ if ($idUser > 0) {
 
 </table>
 
+<?php foreach (getHotelPRE($idPRE) as $hotel): ?>
+
+<div class='cartouche'>
+  <div class='card'>
+    <div class='data'>
+      <?= $hotel[$_SESSION["order"]] . (($_SESSION["order"] == "rating")?"note :":"") ?>
+    </div>
+    <div class='pict'>
+      <a href="hotel.php?id=<?= $hotel['idHOT'] ?>&nom=<?= htmlentities($hotel['nom']) ?>"><img src="<?= $hotel['image'] ?>" alt="<?= $hotel['nom'] ?>"></a>
+    </div>
+  </div>
+</div>
+<?php endforeach; ?>
 <?php include('footer.php'); ?>

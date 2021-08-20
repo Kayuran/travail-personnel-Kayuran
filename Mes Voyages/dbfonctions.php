@@ -93,28 +93,48 @@ function getOnePays($idPRE) {
 
 /**
  * Récupère les hotels dans un certain ordre
- * @param string  $order     Nom de la colonne pour trier les pays affichés
+ * @param string  $order     Nom de la colonne pour trier les hotels affichés
  * @param string  $direction Sens de tri de l'affichage
  * @param boolean $filter    Filtre actif ou pas
- * @param int     $idUser    Identifiant utilisateur connecte
+ * @param int     $idUser    Identifiant utilisateur connecté
  * @param string  $mode      verbose=deboggage or quiet=production, indique si le select est affiché ou pas pour l'utilisateur
  * @return array tableau des pays
  */
 function getHotel($order, $direction, $filter, $idUser, $mode) {
 
-
+    try {
             $query = "SELECT * FROM hotel ORDER BY $order $direction";        
             $request = myConnection()->prepare($query); 
             $request->execute();
 
-
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
 	
     return $request->fetchAll(PDO::FETCH_ASSOC);
 }
 
 /**
- * Récupère les informations d'un hotel
- * @param string $idHOT Identifiant de la prestation
+ * Récupère les hotels en lien avec les prestation 
+ * @param string $idPRE Identifiant de la prestation
+ */
+function getHotelPRE($idPRE) {
+
+    try {
+        $request = myConnection()->prepare("SELECT * FROM hotel where prestation_idPRE = :idPRE"); 
+        $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);       
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+
+    return $request->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+/**
+ * Récupère les informations d'un hôtel
+ * @param string $idHOT Identifiant de l'hôtel
  * @return array Tableau des informations
  */
 function getOnehotel($idHOT) {
