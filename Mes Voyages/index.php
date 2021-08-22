@@ -51,9 +51,12 @@ if (isset($_POST["filterSwap"])) {
 
 <form method="post" action="index.php" enctype="multipart/form-data" id="ordering">
   
-  <button class="btn btn-default" type="submit" name="orderByName">Accéder aux pays</button>
+  <button class="btn btn-default" type="submit" name="orderByName">Liste des Pays</button>
   <button class="btn btn-default" type="submit" name="directionSwap">Toggle Order swap</button>
   <button class="btn btn-default" type="submit" name="orderByOrder">Trier par ordre d'ajout</button>
+  <a href="AjouterDestination.php" class="btn btn-default" type="submit" name="AjouterDestination">Ajouter une destination</a>
+  <button class="btn btn-default" type="submit" name="ModifierDestination">Modifier une destination</button>
+  <button class="btn btn-default" type="submit" name="SupprimerDestination">Supprimer une destination</button>
   <?php if (isset($_SESSION["idUser"]) && $_SESSION["idUser"] > 0): ?>
   <button class="btn btn-default" type="submit" name="filterSwap">Toggle Filter</button>
   <?php endif; ?>

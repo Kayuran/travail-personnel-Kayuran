@@ -2,7 +2,6 @@
 
 $idUser   = (isset($_SESSION["idUSER"])) ? $_SESSION(["idUSER"])              :0;
 $idPRE   = (isset($_GET["id"]))         ? $_GET["id"]                        :0;
-$idHOT   = (isset($_GET["idHOT"]))         ? $_GET["idHOT"]                        :0;
 $title    = (isset($_GET["nom"]))      ? html_entity_decode($_GET["nom"]) :$idPRE;
 include('header.php');
 

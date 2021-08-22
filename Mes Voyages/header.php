@@ -33,7 +33,7 @@
                   <a href="logout.php"><?= $_SESSION["message"] ?></a><br>
                 <?php else: ?>
 
-                  <a href="login.php"><?= empty($_SESSION["message"])?"Se connecter ou s'inscrire":$_SESSION["message"] ?></a><br>
+                  <a href="login.php"><?= empty($_SESSION["message"])?"Login or register":$_SESSION["message"] ?></a><br>
                 <?php endif; ?>
                 
               </nav>
@@ -41,3 +41,4 @@
           </tr>
         </table>
       </header>
+
