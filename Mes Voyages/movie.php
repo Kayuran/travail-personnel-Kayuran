@@ -37,7 +37,7 @@ if ($idUser > 0) {
 <table class="jacket table-bordered">
   <tr class="gradeA">
     <td rowspan="4">
-        <img src="<?= $pays["image"] ?>" class="prestation">
+        <img src="<?= $pays["images"] ?>" class="prestation">
       </a>
     </td>
     <td>
@@ -165,4 +165,5 @@ if ($idUser > 0) {
   </div>
 </div>
 <?php endforeach; ?>
+
 <?php include('footer.php'); ?>

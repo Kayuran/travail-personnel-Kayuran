@@ -28,7 +28,7 @@
             </td>
             <td>
               <nav>
-                <?php if (isset($_SESSION["idUser"]) && $_SESSION["idUser"] > 0): ?>
+                <?php if (isset($_SESSION["idUSER"]) && $_SESSION["idUSER"] > 0): ?>
 
                   <a href="logout.php"><?= $_SESSION["message"] ?></a><br>
                 <?php else: ?>

@@ -277,7 +277,7 @@ function createFeedback($idUser, $idPRE, $ranking) {
         try {
             $request = myConnection()->prepare("INSERT INTO feedback (ranking, prestation_idPRE, users_idUSER) VALUES (:ranking, :idPRE, :idUSER)");
             $request->bindParam(':idUSER', $idUser, PDO::PARAM_INT);
-            $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
+            $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);
             $request->bindParam(':ranking',$ranking,PDO::PARAM_INT);
             $request->execute();
         } catch (PDOException $e) {
@@ -318,6 +318,24 @@ function removeFeedback($idUser, $idPRE) {
         $request = myConnection()->prepare("DELETE FROM feedback WHERE users_idUSER = :idUSER AND prestation_idPRE = :idPRE");
         $request->bindParam(':idUSER', $idUser, PDO::PARAM_INT);
         $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+}
+
+/**
+ * Ajoute un pays
+ * @param string $email E-mail
+ * @param string $password Mot de passe
+ */
+function createPays($pays, $images, $description) {
+    
+    try {
+        $request = myConnection()->prepare("INSERT INTO prestation (nom,images,description) VALUES(:pays,:images,:description)");
+        $request->bindParam(':pays', $pays, PDO::PARAM_STR);
+        $request->bindParam(':images', $images, PDO::PARAM_STR);
+        $request->bindParam(':description', $description, PDO::PARAM_STR);
         $request->execute();
     } catch (PDOException $e) {
         header("Location:error.php?message=".$e->getMessage());
