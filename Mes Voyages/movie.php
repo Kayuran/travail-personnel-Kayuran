@@ -160,7 +160,7 @@ if ($idUser > 0) {
       <?= $hotel[$_SESSION["order"]] . (($_SESSION["order"] == "rating")?"note :":"") ?>
     </div>
     <div class='pict'>
-      <a href="hotel.php?id=<?= $hotel['idHOT'] ?>&nom=<?= htmlentities($hotel['nom']) ?>"><img src="<?= $hotel['image'] ?>" alt="<?= $hotel['nom'] ?>"></a>
+      <a href="hotel.php?id=<?= $hotel['idHOT'] ?>&nom=<?= htmlentities($hotel['nom']) ?>"><img src="<?= $hotel['images'] ?>" alt="<?= $hotel['nom'] ?>"></a>
     </div>
   </div>
 </div>

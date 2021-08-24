@@ -325,9 +325,10 @@ function removeFeedback($idUser, $idPRE) {
 }
 
 /**
- * Ajoute un pays
- * @param string $email E-mail
- * @param string $password Mot de passe
+ * Ajoute un Pays
+ * @param string $pays Nom du pays
+ * @param string $images Chemin de l'image
+ * @param string $description Description du pays
  */
 function createPays($pays, $images, $description) {
     
@@ -341,3 +342,27 @@ function createPays($pays, $images, $description) {
         header("Location:error.php?message=".$e->getMessage());
     }
 }
+
+/**
+ * Ajoute un Hotel
+ * @param string $idpays id du pays de l'hotel
+ * @param string $hotel Nom de l'hotel
+ * @param string $rating Note de l'hotel
+ * @param string $imagesHotel Chemin de l'image
+ * @param string $descriptionHotel Description de l'hotel
+ */
+function createHotel($idpays,$hotel,$rating,$imagesHotel, $descriptionHotel) {
+    
+    try {
+        $request = myConnection()->prepare("INSERT INTO hotel (prestation_idPRE,nom,rating,images,description) VALUES(:idpays,:hotel,:rating,:imagesHotel,:descriptionHotel)");
+        $request->bindParam(':idpays', $idpays, PDO::PARAM_STR);
+        $request->bindParam(':hotel', $hotel, PDO::PARAM_STR);
+        $request->bindParam(':rating', $rating, PDO::PARAM_STR);
+        $request->bindParam(':imagesHotel', $imagesHotel, PDO::PARAM_STR);
+        $request->bindParam(':descriptionHotel', $descriptionHotel, PDO::PARAM_STR);
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+}
+
