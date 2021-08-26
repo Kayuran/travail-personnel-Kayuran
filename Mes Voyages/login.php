@@ -18,22 +18,22 @@
             createUser($email, sha1($pswrd));
             $user = getOneUser($email); 
             $_SESSION["message"] = "Vous n'êtes pas " . $email . "?";
-            $_SESSION["idUSER"]  = $user["idUSER"];  
+            $_SESSION["idUser"]  = $user["idUser"];  
             header("Location:index.php");
         } else { 
           if ($user["password"] == sha1($pswrd)) { 
             $_SESSION["message"] = "Not " . $email . "?";
-            $_SESSION["idUSER"]  = $user["idUSER"];
+            $_SESSION["idUser"]  = $user["idUser"];
             header("Location:index.php"); 
           } else { // Please login message
             $_SESSION["message"] = "Compte déjà existant! Veuillez vous connecter...";
-            $_SESSION["idUSER"]  = 0;          
+            $_SESSION["idUser"]  = 0;          
             header("Location:login.php");
           }         
         }
       } catch (Exception $e) { 
             $_SESSION["message"] = "Se connecter ou s'inscrire";
-            $_SESSION["idUSER"]  = 0; // Pas connecté
+            $_SESSION["idUser"]  = 0; // Pas connecté
             header("Location:error.php?message=".$e->getMessage());
       } 
 
@@ -44,16 +44,16 @@
         $user = getOneUser($email); 
         if ($user["password"]   == sha1($pswrd)) { //vérification password
             $_SESSION["message"] = "Not " . $email . "?";
-            $_SESSION["idUSER"]  = $user["idUSER"];
+            $_SESSION["idUser"]  = $user["idUser"];
             header("Location:index.php");
         } else { // ID invalide
             $_SESSION["message"] = "ID INVALIDE";
-            $_SESSION["idUSER"]  = 0;
+            $_SESSION["idUser"]  = 0;
             header("Location:login.php");
         }
       } catch (Exception $e) { 
             $_SESSION["message"] = "Se connecter ou s'inscrire";
-            $_SESSION["idUSER"]  = 0; // Pas connecté
+            $_SESSION["idUser"]  = 0; // Pas connecté
             header("Location:error.php?message=".$e->getMessage());
       }
     } 

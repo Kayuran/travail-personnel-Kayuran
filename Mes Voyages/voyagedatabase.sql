@@ -21,15 +21,15 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `feedback` (
   `ranking` tinyint(1) DEFAULT NULL,
-  `prestation_idPRE` int(25) NOT NULL,
-  `users_idUSER` int(11) NOT NULL
+  `FK_idPRE` int(25) NOT NULL,
+  `FK_idUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `feedback`
 --
 
-INSERT INTO `feedback` (`ranking`, `prestation_idPRE`, `users_idUSER`) VALUES
+INSERT INTO `feedback` (`ranking`, `FK_idPRE`, `FK_idUser`) VALUES
 (1, 1, 1)
 ;
 
@@ -99,18 +99,17 @@ INSERT INTO `hotel` (`idHOT`, `prestation_idPRE`,`nom`, `rating`,`images`, `desc
 --
 
 CREATE TABLE `users` (
-  `idUSER` int(11) NOT NULL,
+  `idUser` int(25) NOT NULL,
   `eMail` varchar(256) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  PRIMARY KEY (`idUSER`)
-
+  `password` varchar(64) NOT NULL
+ 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`idUSER`, `eMail`, `password`) VALUES
+INSERT INTO `users` (`idUser`, `eMail`, `password`) VALUES
 (1, 'me@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
 (2, 'buffalo@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
 (3, 'lucky@gmail.com', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785'),
@@ -125,8 +124,8 @@ INSERT INTO `users` (`idUSER`, `eMail`, `password`) VALUES
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`prestation_idPRE`,`users_idUser`),
-  ADD KEY `FK_feedback_idUser` (`users_idUser`);
+  ADD PRIMARY KEY (`FK_idPRE`,`FK_idUser`),
+  ADD KEY `FK_feedback_idUser` (`FK_idUser`);
 
 
 
@@ -135,6 +134,7 @@ ALTER TABLE `feedback`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`idUser`),
   ADD UNIQUE KEY `eMail` (`eMail`);
 
 
@@ -152,7 +152,7 @@ ALTER TABLE `prestation`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `idUSER` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 
   --
@@ -173,8 +173,8 @@ ALTER TABLE `hotel`
 -- Constraints for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD CONSTRAINT `FK_feedback_idPRE` FOREIGN KEY (`prestation_idPRE`) REFERENCES `prestation` (`idPRE`),
-  ADD CONSTRAINT `FK_feedback_idUser` FOREIGN KEY (`users_idUser`) REFERENCES `users` (`idUser`);
+  ADD CONSTRAINT `FK_feedback_idPRE` FOREIGN KEY (`FK_idPRE`) REFERENCES `prestation` (`idPRE`),
+  ADD CONSTRAINT `FK_feedback_idUser` FOREIGN KEY (`FK_idUser`) REFERENCES `users` (`idUser`);
 
 ALTER TABLE `hotel`
   ADD CONSTRAINT `FK_hotel_idPRE` FOREIGN KEY (`prestation_idPRE`) REFERENCES `prestation` (`idPRE`);

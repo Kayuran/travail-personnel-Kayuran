@@ -42,7 +42,7 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
 
         if ($filter) {
 
-            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE users_idUSER = :idUser) ORDER BY $order $direction";        
+            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE FK_idUser = :idUser) ORDER BY $order $direction";        
             debug($mode, $query);
             $request = myConnection()->prepare($query);
             $request->bindParam(':idUser', $idUser, PDO::PARAM_STR);
@@ -169,12 +169,12 @@ function createUser($email, $password) {
 /**
  * Récupère un utilisateur
  * @param string $email email
- * @return array tableau des informations d'un film
+ * @return array tableau des informations d'une prestation
  */
 function getOneUser($email) {
     $email = strtolower($email);
     try {
-        $request = myConnection()->prepare("SELECT * FROM users WHERE email = :email");
+        $request = myConnection()->prepare("SELECT * FROM users WHERE eMail = :email");
         $request->bindParam(':email', $email, PDO::PARAM_STR);
         $request->execute();
     } catch (PDOException $e) {
@@ -192,9 +192,9 @@ function getOneUser($email) {
 function getFeedback($idUser, $idPRE) {
     //assert(avis does already exist)
     try {
-        $request = myConnection()->prepare("SELECT ranking FROM feedback WHERE users_idUSER  = :idUSER AND prestation_idPRE = :idPRE");
+        $request = myConnection()->prepare("SELECT ranking FROM feedback WHERE FK_idUser  = :idUSER AND FK_idPRE = :idPRE");
         $request->bindParam(':idUSER', $idUser, PDO::PARAM_STR);
-        $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
+        $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);
         $request->execute();
     } catch (PDOException $e) {
         header("Location:error.php?message=".$e->getMessage());
@@ -275,7 +275,7 @@ function createFeedback($idUser, $idPRE, $ranking) {
     //assert(avis doesn't already exist)
     if ($ranking == -1 || $ranking == 0 || $ranking == 1) {
         try {
-            $request = myConnection()->prepare("INSERT INTO feedback (ranking, prestation_idPRE, users_idUSER) VALUES (:ranking, :idPRE, :idUSER)");
+            $request = myConnection()->prepare("INSERT INTO feedback (ranking, FK_idPRE, FK_idUser) VALUES (:ranking, :idPRE, :idUSER)");
             $request->bindParam(':idUSER', $idUser, PDO::PARAM_INT);
             $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);
             $request->bindParam(':ranking',$ranking,PDO::PARAM_INT);
@@ -296,9 +296,9 @@ function updateFeedback($idUser, $idPRE, $ranking) {
     //assert(avis does already exist)
     if ($ranking == -1 || $ranking == 0 || $ranking == 1) {
         try {
-            $request = myConnection()->prepare("UPDATE feedback SET ranking = :ranking WHERE users_idUSER = :idUSER AND prestation_idPRE = :idPRE");
+            $request = myConnection()->prepare("UPDATE feedback SET ranking = :ranking WHERE FK_idUser = :idUSER AND FK_idPRE = :idPRE");
             $request->bindParam(':idUSER', $idUser, PDO::PARAM_INT);
-            $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
+            $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);
             $request->bindParam(':ranking',$ranking,PDO::PARAM_INT);
             $request->execute();
         } catch (PDOException $e) {
@@ -315,9 +315,9 @@ function updateFeedback($idUser, $idPRE, $ranking) {
 function removeFeedback($idUser, $idPRE) {
     //assert(avis does already exist)
     try {
-        $request = myConnection()->prepare("DELETE FROM feedback WHERE users_idUSER = :idUSER AND prestation_idPRE = :idPRE");
+        $request = myConnection()->prepare("DELETE FROM feedback WHERE FK_idUser = :idUSER AND FK_idPRE = :idPRE");
         $request->bindParam(':idUSER', $idUser, PDO::PARAM_INT);
-        $request->bindParam(':idPRE', $idIMDB, PDO::PARAM_STR);
+        $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);
         $request->execute();
     } catch (PDOException $e) {
         header("Location:error.php?message=".$e->getMessage());

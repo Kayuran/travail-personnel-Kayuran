@@ -71,7 +71,7 @@ if (isset($_POST["filterSwap"])) {
         <?=$pays[$_SESSION["order"]] . (($_SESSION["order"] == "nom")?"":"") ?>
       </div>
       <div class='pict'>
-        <a href="movie.php?id=<?= $pays['idPRE'] ?>&nom=<?= htmlentities($pays['nom']) ?>"><img src="<?= $pays['images'] ?>" alt="<?= $pays['nom'] ?>"></a>
+        <a href="prestation.php?id=<?= $pays['idPRE'] ?>&nom=<?= htmlentities($pays['nom']) ?>"><img src="<?= $pays['images'] ?>" alt="<?= $pays['nom'] ?>"></a>
       </div>
     </div>
   </div>

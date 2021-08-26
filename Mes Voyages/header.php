@@ -13,7 +13,7 @@
     <link href="bootstrap/dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="bootstrap/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title><?= $title ?></title>
+    <title><?= $nom ?></title>
   </head>
   <body>
     <div class="col-lg-12">
@@ -21,14 +21,13 @@
       <header>
         <table>
           <tr>
-            <td>
               
             <td>
               <h1>MesVoyages</h1>
             </td>
             <td>
               <nav>
-                <?php if (isset($_SESSION["idUSER"]) && $_SESSION["idUSER"] > 0): ?>
+                <?php if (isset($_SESSION["idUser"]) && $_SESSION["idUser"] > 0): ?>
 
                   <a href="logout.php"><?= $_SESSION["message"] ?></a><br>
                 <?php else: ?>
