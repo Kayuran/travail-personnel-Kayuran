@@ -4,6 +4,7 @@
 $title = "Mes Voyages";
 include('header.php');
 
+//ORDRE
 
 // Valeurs par defauts
 if (!isset($_SESSION["order"])) {
@@ -28,7 +29,7 @@ if (isset($_POST["orderByName"])) {
 }
 
 
-// order swap
+// Changer l'odre
 if (isset($_POST["directionSwap"])) {
   if ($_SESSION["direction"] == "ASC") {
     $_SESSION["direction"] = "DESC";
@@ -55,8 +56,7 @@ if (isset($_POST["filterSwap"])) {
   <button class="btn btn-default" type="submit" name="directionSwap">Toggle Order swap</button>
   <button class="btn btn-default" type="submit" name="orderByOrder">Trier par ordre d'ajout</button>
   <a href="AjouterDestination.php" class="btn btn-default" type="submit" name="AjouterDestination">Ajouter une destination</a>
-  <button class="btn btn-default" type="submit" name="ModifierDestination">Modifier une destination</button>
-  <button class="btn btn-default" type="submit" name="SupprimerDestination">Supprimer une destination</button>
+  <a href="Supprimer.php" class="btn btn-default" type="submit" name="Supprimer">Modifier ou supprimer une destination</a>
   <?php if (isset($_SESSION["idUser"]) && $_SESSION["idUser"] > 0): ?>
   <button class="btn btn-default" type="submit" name="filterSwap">Toggle Filter</button>
   <?php endif; ?>

@@ -42,8 +42,7 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
 
         if ($filter) {
 
-            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE FK_idUser = :idUser) ORDER BY $order $direction";        
-            debug($mode, $query);
+            $query = "SELECT * FROM prestation WHERE idPRE NOT IN (SELECT prestation_idPRE FROM feedback WHERE FK_idUser = :idUser) ORDER BY $order $direction";   
             $request = myConnection()->prepare($query);
             $request->bindParam(':idUser', $idUser, PDO::PARAM_STR);
             $request->execute();
@@ -51,7 +50,6 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
         } else {
 
             $query = "SELECT * FROM prestation ORDER BY $order $direction";        
-            debug($mode, $query);
             $request = myConnection()->prepare($query); 
             $request->execute();
 
@@ -63,15 +61,7 @@ function getPays($order, $direction, $filter, $idUser, $mode) {
     return $request->fetchAll(PDO::FETCH_ASSOC);
 }
 
-/**
- * Affiche une variable pour déboggage
- * Non respect du MVC ici, car affichage du HTML dans la zone dédiée aux données
- * @param string $data donnée à afficher
- */
-function debug($mode, $data) {
-    if ($mode == "verbose")
-        echo "<center><small><font color='#CCCCCC'>" . $data . "</font></small></center><br>";
-}
+
 
 /**
  * Récupère les informations d'une prestation
@@ -206,7 +196,7 @@ function getFeedback($idUser, $idPRE) {
 /**
  * Crée, supprime ou met à jour l'avis de l'utilisateur
  * @param int $idUser identifiant de l'utilisateur
- * @param string $idPRE identifiant du film
+ * @param string $idPRE identifiant de la prestation
  * @param int ranking (-1 disliked, 0 neutral, 1 loved)
  */
 function setFeedback($idUser, $idPRE, $ranking) {
@@ -365,4 +355,118 @@ function createHotel($idpays,$hotel,$rating,$imagesHotel, $descriptionHotel) {
         header("Location:error.php?message=".$e->getMessage());
     }
 }
+
+/**
+ * Delete un Pays
+ * @param string $idPays id de la prestation
+ */
+function deletePays($idPays) {
+    
+    try {
+        $request = myConnection()->prepare("DELETE FROM prestation WHERE idPRE = :idPays");
+        $request->bindParam(':idPays', $idPays, PDO::PARAM_STR);
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+}
+
+
+/**
+ * Delete les hotels d'un Pays
+ * @param string $idPays id de la prestation
+ */
+function deleteHotelPays($idPays) {
+    
+    try {
+        $request = myConnection()->prepare("DELETE FROM hotel WHERE prestation_idPRE = :idPays");
+        $request->bindParam(':idPays', $idPays, PDO::PARAM_STR);
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+}
+
+/**
+ * Modifie un Pays
+ * @param string $pays Nom du pays
+ * @param string $images Chemin de l'image
+ * @param string $description Description du pays
+ */
+function updatePays($pays, $images, $description, $idPRE) {
+    
+    try {
+        $request = myConnection()->prepare("UPDATE prestation SET nom = :pays, images = :images , description = :description WHERE idPRE = :idPRE");
+        $request->bindParam(':pays', $pays, PDO::PARAM_STR);
+        $request->bindParam(':images', $images, PDO::PARAM_STR);
+        $request->bindParam(':description', $description, PDO::PARAM_STR);
+        $request->bindParam(':idPRE', $idPRE, PDO::PARAM_STR);
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+}
+
+
+
+/**
+ * Récupère les hotels
+ */
+
+function getAllHotel() {
+
+    try {
+            $query = "SELECT * FROM hotel";        
+            $request = myConnection()->prepare($query); 
+            $request->execute();
+
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+	
+    return $request->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
+
+/**
+ * Supprime un hotel 
+ * @param string $idHotel id de l'hotel
+ */
+function deleteHotel($idHotel) {
+    
+    try {
+        $request = myConnection()->prepare("DELETE FROM hotel WHERE idHOT = :idHotel");
+        $request->bindParam(':idHotel', $idHotel, PDO::PARAM_STR);
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+}
+
+/**
+ * Modifie un Hotel
+ * @param string $idHOT id de l'hotel
+ * @param string $hotel Nom de l'hotel
+ * @param string $rating Note de l'hotel
+ * @param string $imagesHotel Chemin de l'image de l'hotel
+ * @param string $descriptionHotel Description de l'hotel
+ */
+function updateHotel($idHOT,$hotel,$rating,$imagesHotel, $descriptionHotel) {
+    
+    try {
+        $request = myConnection()->prepare("UPDATE hotel SET nom = :hotel, rating = :rating, images = :imagesHotel, description = :descriptionHotel WHERE idHOT = :idHOT");
+        $request->bindParam(':idHOT', $idHOT, PDO::PARAM_STR);
+        $request->bindParam(':hotel', $hotel, PDO::PARAM_STR);
+        $request->bindParam(':rating', $rating, PDO::PARAM_STR);
+        $request->bindParam(':imagesHotel', $imagesHotel, PDO::PARAM_STR);
+        $request->bindParam(':descriptionHotel', $descriptionHotel, PDO::PARAM_STR);
+        $request->execute();
+    } catch (PDOException $e) {
+        header("Location:error.php?message=".$e->getMessage());
+    }
+}
+
+
 

@@ -3,6 +3,7 @@
 
 $idHOT   = (isset($_GET["id"]))         ? $_GET["id"]                        :0;
 $title    = (isset($_GET["nom"]))      ? html_entity_decode($_GET["nom"]) :$idHOT;
+
 include('header.php');
 
 $hotel  = getOnehotel($idHOT);

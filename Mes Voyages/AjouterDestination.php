@@ -4,9 +4,6 @@ include('header.php');
 ?>
  
 
-
-
-
 <form AjouterDestination="AjouterDestination.php" method="post">
  <br>
  <p>Ajouter un Pays : <input class="form-control" type="text" name="Pays" /></p>
@@ -15,13 +12,18 @@ include('header.php');
  <p><button class="btn btn-default" type="submit" name="AjouterPays">Ajouter un Pays</button><br>
  <br>
  <br>
- </form>
- <form AjouterHotel="AjouterDestination.php" method="post">
+</form>
+
+
+<form AjouterHotel="AjouterDestination.php" method="post">
+
  <label for="paysSelect">Selectionner un pays :</label>
  <select name="paysSelect" >
+
  <?php foreach (getPays($_SESSION["order"], $_SESSION["direction"], $_SESSION["filter"], @$_SESSION["idUser"], "verbose") as $paysHotel): ?>
   <option value = "<?= $paysHotel['idPRE']; ?>"><?= $paysHotel['nom']; ?></option>
  <?php endforeach; ?>
+
  </select>
 
  <p>Ajouter un Hotel : <input class="form-control" type="text" name="Hotel" /></p>
@@ -30,12 +32,12 @@ include('header.php');
  <p>Note de l'Hotel : <input class="form-control" type="text" name="Rating" /></p>
  <p><button class="btn btn-default" type="submit" name="AjouterHotel">Ajouter un Hotel</button><br>
  <br>
+
 </form>
 
 
 <?php
 
-		
 if (isset($_POST["AjouterPays"])) {
 
       $pays = $_POST["Pays"];
@@ -54,7 +56,6 @@ if (isset($_POST["AjouterPays"])) {
 ?>
  
 <?php
-
 		
 if (isset($_POST["AjouterHotel"])) {
 
@@ -73,6 +74,13 @@ if (isset($_POST["AjouterHotel"])) {
 }
 
 ?>
+
+<tr class="gradeA">
+    <td class="info">
+      <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<a href="index.php">Retour à l'accueil</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
 
 
 

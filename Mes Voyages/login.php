@@ -77,3 +77,10 @@
 
 
 <?php include('footer.php'); ?>
+
+<tr class="gradeA">
+    <td class="info">
+      <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<a href="index.php">Retour à l'accueil</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
