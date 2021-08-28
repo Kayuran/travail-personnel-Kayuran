@@ -1,14 +1,16 @@
 
 <?php 
 include('header.php');
+//Page de formulaire d'ajout de prestation et d'hotel
+//Mahesalingam Kayuran - ESIG
 ?>
  
 
 <form AjouterDestination="AjouterDestination.php" method="post">
  <br>
- <p>Ajouter un Pays : <input class="form-control" type="text" name="Pays" /></p>
- <p>Chemin de l'image Pays (ex : ./images/Canaries.jpg) : <input class="form-control" type="text" name="ImagePays" /></p>
- <p>Description du Pays : <input class="form-control" type="text" name="DescrPays" /></p>
+ <p>Ajouter un Pays : <input class="form-control" type="text" name="Pays"required /></p>
+ <p>Chemin de l'image Pays (ex : ./images/Canaries.jpg) : <input class="form-control" type="text" name="ImagePays" required/></p>
+ <p>Description du Pays : <input class="form-control" type="text" name="DescrPays" required /></p>
  <p><button class="btn btn-default" type="submit" name="AjouterPays">Ajouter un Pays</button><br>
  <br>
  <br>
@@ -26,17 +28,17 @@ include('header.php');
 
  </select>
 
- <p>Ajouter un Hotel : <input class="form-control" type="text" name="Hotel" /></p>
- <p>Chemin de l'image Hotel (ex : ./images/hotels/Canaries/Riu Calypso.jpg) : <input class="form-control" type="text" name="ImageHotel" /></p>
- <p>Description de l'Hotel : <input class="form-control" type="text" name="DescrHotel" /></p>
- <p>Note de l'Hotel : <input class="form-control" type="text" name="Rating" /></p>
+ <p>Ajouter un Hotel : <input class="form-control" type="text" name="Hotel" required/></p>
+ <p>Chemin de l'image Hotel (ex : ./images/hotels/Canaries/Riu Calypso.jpg) : <input class="form-control" type="text" name="ImageHotel" required /></p>
+ <p>Description de l'Hotel : <input class="form-control" type="text" name="DescrHotel" required /></p>
+ <p>Note de l'Hotel : <input class="form-control" type="text" name="Rating" required /></p>
  <p><button class="btn btn-default" type="submit" name="AjouterHotel">Ajouter un Hotel</button><br>
  <br>
 
 </form>
 
 
-<?php
+<?php 
 
 if (isset($_POST["AjouterPays"])) {
 
@@ -45,9 +47,12 @@ if (isset($_POST["AjouterPays"])) {
       $description = $_POST["DescrPays"];
 
       try {
+  
        createPays($pays,$images,$description);
-       
 
+       // END
+       myConnection();
+     
     } catch (Exception $e) { 
       header("Location:error.php?message=".$e->getMessage());
     } 
@@ -66,12 +71,20 @@ if (isset($_POST["AjouterHotel"])) {
       $hotel = $_POST["Hotel"];
 
     try {
+
+
       createHotel($idpays,$hotel,$rating,$imagesHotel,$descriptionHotel);
+
+      // END
+      myConnection();
+
 
     } catch (Exception $e) { 
       header("Location:error.php?message=".$e->getMessage());
+      die();
     } 
 }
+
 
 ?>
 

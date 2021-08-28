@@ -1,4 +1,6 @@
 <?php
+//Mahesalingam Kayuran - ESIG
+
   require 'dbfonctions.php';
   session_start();
 ?>

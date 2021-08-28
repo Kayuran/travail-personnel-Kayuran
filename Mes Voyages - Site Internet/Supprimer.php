@@ -1,4 +1,6 @@
 <?php
+//Page de suppression et de modification de données des tables hotel et prestation
+//Mahesalingam Kayuran - ESIG
 
 include('header.php');
 
@@ -15,16 +17,17 @@ include('header.php');
  <?php endforeach; ?>
  </select>  
 
-<p><button class="btn btn-default" type="submit" name="suppPays">Supprimer le pays selectionné</button><br>
+<p><button class="btn btn-default" type="submit" name="suppPays">Supprimer le pays selectionné</button><br></form>
 
- <p>Modifier le nom du Pays selectionné : <input class="form-control" type="text" name="Pays" /></p>
- <p>Modifier chemin de l'image Pays du pays selectionné : (ex : ./images/Canaries.jpg) <input class="form-control" type="text" name="ImagePays" /></p>
- <p>Modifier description du Pays du pays selectionné: <input class="form-control" type="text" name="DescrPays" /></p>
+<form SupprimerPays="Supprimer.php" method="post">
+ <p>Modifier le nom du Pays selectionné : <input class="form-control" type="text" name="Pays" required /></p>
+ <p>Modifier chemin de l'image du Pays selectionné : (ex : ./images/Canaries.jpg) <input class="form-control" type="text" name="ImagePays" required /></p>
+ <p>Modifier description du Pays selectionné: <input class="form-control" type="text" name="DescrPays" required /></p>
 
  <p><button class="btn btn-default" type="submit" name="modifPays">Modifier le Pays</button><br>
  <br>
  <br>
- </form>
+</form>
 
 
 
@@ -37,12 +40,13 @@ include('header.php');
  <?php endforeach; ?>
  </select>  <p>
    
- <button class="btn btn-default" type="submit" name="suppHotel">Supprimer l'hotel selectionné</button><br>
+ <button class="btn btn-default" type="submit" name="suppHotel">Supprimer l'hotel selectionné</button><br></form>
 
- <p>Modifier le nom de l'hotel selectionné : <input class="form-control" type="text" name="Hotel" /></p>
- <p>Modifier chemin de l'image de l'hotel selectionné (ex : ./images/hotels/Canaries/Riu Calypso.jpg) : <input class="form-control" type="text" name="ImageHotel" /></p>
- <p>Modifier description de l'Hotel selectionné : <input class="form-control" type="text" name="DescrHotel" /></p>
- <p>Modifier note de l'Hotel selectionné : <input class="form-control" type="text" name="Rating" /></p>
+ <form SupprimerHotel="Supprimer.php" method="post">
+ <p>Modifier le nom de l'hotel selectionné : <input class="form-control" type="text" name="Hotel" required /></p>
+ <p>Modifier chemin de l'image de l'hotel selectionné (ex : ./images/hotels/Canaries/Riu Calypso.jpg) : <input class="form-control" type="text" name="ImageHotel" required /></p>
+ <p>Modifier description de l'Hotel selectionné : <input class="form-control" type="text" name="DescrHotel" required /></p>
+ <p>Modifier note de l'Hotel selectionné : <input class="form-control" type="text" name="Rating" required /></p>
 
  <p><button class="btn btn-default" type="submit" name="modifHotel">Modifier l'Hotel</button><br>
  <br>
@@ -63,6 +67,8 @@ if (isset($_POST["modifPays"])) {
       try {
        updatePays($pays,$images,$description, $idPRE);
        
+       // END
+       myConnection();
 
     } catch (Exception $e) { 
       header("Location:error.php?message=".$e->getMessage());
@@ -85,6 +91,8 @@ if (isset($_POST["modifHotel"])) {
       try {
         updateHotel($idHOT,$hotel,$rating,$imagesHotel, $descriptionHotel);
        
+        // END
+       myConnection();
 
     } catch (Exception $e) { 
       header("Location:error.php?message=".$e->getMessage());
@@ -106,6 +114,8 @@ if (isset($_POST["suppPays"])) {
        deletePays($idPays);
        deleteHotelPays($idPays);
        
+       // END
+       myConnection();
 
     } catch (Exception $e) { 
       header("Location:error.php?message=".$e->getMessage());
@@ -124,6 +134,9 @@ if (isset($_POST["suppHotel"])) {
 
     try {
       deleteHotel($idHotel);
+
+      // END
+      myConnection();
 
     } catch (Exception $e) { 
       header("Location:error.php?message=".$e->getMessage());

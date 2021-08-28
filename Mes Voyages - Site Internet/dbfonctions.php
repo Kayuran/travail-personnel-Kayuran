@@ -2,6 +2,7 @@
 
 /* * * * * * * * * * * * * * * * * *
  * - Mahesalingam Kayuran - ESIG
+ * -Page de base de donnée pour les fonctions utilisées
  * * * * * * * * * * * * * * * * * */
 
 DEFINE('DB_USER', 'root');
@@ -105,7 +106,7 @@ function getHotel($order, $direction, $filter, $idUser, $mode) {
 }
 
 /**
- * Récupère les hotels en lien avec les prestation 
+ * Récupère les hotels en lien avec les prestations
  * @param string $idPRE Identifiant de la prestation
  */
 function getHotelPRE($idPRE) {

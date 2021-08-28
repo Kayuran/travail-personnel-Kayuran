@@ -1,4 +1,6 @@
 <?php
+//Mahesalingam Kayuran - ESIG
+
   $title = "Login";
   include('header.php');
 
@@ -75,12 +77,14 @@
                 </fieldset>
             </div>
 
-
-<?php include('footer.php'); ?>
-
-<tr class="gradeA">
+            <tr class="gradeA">
     <td class="info">
+      <br>
       <br>
       &nbsp;&nbsp;&nbsp;&nbsp;<a href="index.php">Retour à l'accueil</a>&nbsp;&nbsp;&nbsp;&nbsp;
     </td>
   </tr>
+
+
+<?php include('footer.php'); ?>
+

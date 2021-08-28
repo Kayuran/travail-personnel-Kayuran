@@ -1,5 +1,6 @@
 <?php
-
+//Mahesalingam Kayuran - ESIG
+//Page de présentation de la prestation selectionnée avec les hotels liés
 
 $idPRE   = (isset($_GET["id"]))         ? $_GET["id"]                        :0;
 $nom    = (isset($_GET["nom"]))      ? html_entity_decode($_GET["nom"]) :$idPRE;
@@ -12,7 +13,7 @@ $pays  = getOnePays($idPRE);
 $idUser   = (isset($_SESSION["idUser"]))?$_SESSION["idUser"]:0;
 if ($idUser > 0) {
 
-  if (isset($_GET["ranking"])) { // Ranking change!
+  if (isset($_GET["ranking"])) { // changement Ranking 
     $ranking = $_GET["ranking"];
     switch($ranking) {
       case -1: // Disliked
@@ -20,7 +21,7 @@ if ($idUser > 0) {
       case 1:  // Loved!
       case 99: // Unseen pays
       setFeedback($idUser, $idPRE, $ranking);
-      $feedback = $ranking; // New ranking applied
+      $feedback = $ranking; // Nouveau ranking
       break;
       default: // Invalid value => Get current value
       $feedback = getFeedback($idUser, $idPRE);
@@ -78,7 +79,7 @@ if ($idUser > 0) {
             </td>
 
             <td valign="middle" class="icons">
-              <?php if ($feedback != 0): ?>
+              <?php if ($feedback != 0): ?> 
                 <a href="prestation.php?id=<?= $pays['idPRE'] ?>&ranking=0&nom=<?= $_GET['nom'] ?>">
                   <img class="icons" src="ressources/silent-emoticon-face-with-missed-mouth-symbol-of-stroke-unselected.png">
                 </a><br>
@@ -153,7 +154,9 @@ if ($idUser > 0) {
 
 </table>
 
-<?php foreach (getHotelPRE($idPRE) as $hotel): ?>
+<?php 
+//affiche les hotels liés à la prestation
+foreach (getHotelPRE($idPRE) as $hotel): ?>
 
 <div class='cartouche'>
   <div class='card'>
